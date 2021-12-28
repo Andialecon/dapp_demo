@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App</title>
+    <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="dist/css/bootstrap.css">
+
+    {{!-- CSS --}}
+    <link rel="stylesheet" href="dist/css/style.css">
+    <link rel="stylesheet" href="dist/css/nav.css">
+    <link rel="stylesheet" href="dist/css/login.css">
+
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&family=Frijole&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="dist/js/login.js"></script>
+</head>
+
+<body>
+    <header>
+        {{!-- navegation --}}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="/">My marca</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        {{#if sesion}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/aplication">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">My Progress</a>
+                        </li>
+                        {{else}}
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="">About</a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                    {{#if sesion}}
+
+                    <ul class="navbar-nav me-auto2 mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="far fa-user"></i> &nbsp; {{user.address}}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li style="display: flex; justify-content: center;">
+                                    <button type="button" class="btn" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop2">
+                                        My Profile &nbsp; <i class="far fa-edit"></i>
+                                    </button>
+                                </li>
+                                <li><a class="dropdown-item text-center" href="#">Action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li style="display: flex; justify-content: center;">
+                                    <form class="d-flex" action="/signOut" id="signOut" method="post">
+                                        <button class="btn" type="submit">Sign Out <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {{else}}
+
+                        <!-- Button conect to metamask -->
+                        <div id="boxConect">
+                            
+                        </div>
+
+                    {{/if}}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Modal profile -->
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class=" modal-content-modified">
+                <div class="modal-header">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">X</button>
+                </div>
+                <div class="modal-body text-center" style="padding: 0 5% 5% 5%;">
+                    <h3 class="text-center">Edit my Profile</h3>
+                    <hr>
+                    <br>
+                    <form action="/editImage" method="POST" enctype="multipart/form-data">
+                        <div class="col-md-12 text-center ">
+                            <img src="data:img/png;base64,{{avatar}}" alt="" class="photoProfile">
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <label for="photo" class="form-label">Photo</label>
+                            <input type="file" name="photo" class="form-control" id="photo" required>
+                        </div>
+                        <br>
+                        <div class="btn-modal">
+                            <button type="submit" class="btn btn-outline-light form-control">Change Image</button>
+                        </div>
+                        <hr>
+                    </form>
+                    <form action="/editProfile" method="POST">
+                        <div class="row">
+                            <div class="col text-center">
+                                <label for="nickname" class="form-label">Nickname</label>
+                                <input type="text" name="nickname" class="form-control" id="nickname"
+                                    placeholder="Nickname" required value="{{nombre}}">
+                            </div>
+                            <div class="col text-center">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control" id="inputPassword4" placeholder="Password" value="{{user.password}}" required readonly>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-7 text-center">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" value="{{user.email}}" required>
+                            </div>
+                            <div class="col-5 text-center">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" name="country" class="form-control" id="country"
+                                    placeholder="Country" value="{{user.country}}" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row text-center">
+                            <div class="col-6 text-center">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" name="gender" id="gender" required >
+                                    <option value="female">female</option>
+                                    <option value="male">male</option>
+                                    <option value="other">other</option>
+                                    <option value="{{user.gender}}" selected>{{user.gender}}</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" name="age" class="form-control" id="age" placeholder="Age" value="{{user.age}}" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col text-center">
+                                <label for="idiomaNativo" class="form-label">Native language:</label>
+                                <select class="form-select" name="idiomaNativo" id="idiomaNativo" required>
+                                    <option value="English">English</option>
+                                    <option value="Spanish">Spanish</option>                                   
+                                    <option value="{{user.idiomaNativo}}" selected>{{user.idiomaNativo}}</option>                                   
+                                </select>
+                            </div>
+                            <div class="col text-center">
+                                <label for="idiomaDeInteres" class="form-label">I want to learn:</label>
+                                <select class="form-select" name="idiomaDeInteres" id="idiomaDeInteres" required>
+                                    <option value="English">English</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="{{user.idiomaDeInteres}}" selected>{{user.idiomaDeInteres}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col text-center">
+                            <label for="description" class="form-label" >About me:</label>
+                            <textarea id="" name="description" rows="4" cols="30" style="color:#212529;display: block; width: 100%;" required> {{user.description}}
+                            </textarea>
+                        </div>
+                        <br>
+                        <div class="btn-modal">
+                            <button type="submit" class="btn btn-outline-light form-control">Update</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="boxAlert" class="row"> </div>

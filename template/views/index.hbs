@@ -1,0 +1,44 @@
+{{>header}}
+
+    <div class="row portada">
+        {{{mostrar}}}
+        <div class="col-md-6">
+            <h1 class="text-center">Hello World</h1>
+        </div>
+        <div class="col-md-6">
+            <div class="row register">
+                <h3 class="text-center my-2">Register</h3>
+                <form action="/register" method="POST">
+                    <div class="col-md-12">
+                        <input type="text" name="nickname" class="form-control" id="nickname" placeholder="Nickname" required>
+                    </div>
+                    <div class="col-md-12 my-3">
+                        <input type="email" name="email" class="form-control" id="inputEmail" placeholder="E-mail" required>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="password" name="password" class="form-control" id="inputPassword4" placeholder="Password" required >
+                    </div>
+                    <div class="col-md-12 my-3">
+                        <label for="idiomaNativo" class="form-label">What is your native language?</label>
+                        <select class="form-select" name="idiomaNativo" id="" required>
+                            <option value="Spanish">Spanish</option>
+                            <option value="English">English</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 my-3">
+                        <label for="idiomaDeInteres" class="form-label">I want to learn:</label>
+                        <select class="form-select" name="idiomaDeInteres" id="idiomaDeInteres" required>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-outline-light form-control">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{{>footer}}
